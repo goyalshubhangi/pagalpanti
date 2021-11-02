@@ -2,42 +2,52 @@ import { Container, Grid, Paper, Link, Typography } from "@mui/material";
 
 export default function All() {
 	return (
-		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+		<Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
 			<Grid container spacing={3}>
-				{/* Chart */}
-				<Grid item xs={12} md={6} lg={4}>
+				<Grid item xs={12} md={4}>
 					<Paper
+						square={true}
+						elevation={3}
 						sx={{
 							p: 2,
 							display: "flex",
 							flexDirection: "column",
-							height: 240,
+							height: "calc(100vh - 200px)",
 						}}
-					></Paper>
+					>
+						asdh asd
+					</Paper>
 				</Grid>
-				<Grid item xs={12} md={6} lg={4}>
+				<Grid item xs={12} md={4}>
 					<Paper
+						square={true}
+						elevation={3}
 						sx={{
 							p: 2,
 							display: "flex",
 							flexDirection: "column",
-							height: 240,
+							height: "calc(100vh - 200px)",
 						}}
-					></Paper>
+					>
+						asdh asd
+					</Paper>
 				</Grid>
-				{/* Recent Deposits */}
-				<Grid item xs={12} md={6} lg={4}>
+				<Grid item xs={12} md={4}>
 					<Paper
+						square={true}
+						elevation={3}
 						sx={{
 							p: 2,
 							display: "flex",
 							flexDirection: "column",
-							height: 240,
+							height: "calc(100vh - 200px)",
 						}}
-					></Paper>
+					>
+						asdh asd
+					</Paper>
 				</Grid>
-				{/* Recent Orders */}
 			</Grid>
+
 			<Grid sx={{ pt: 4 }}>
 				<Typography variant="body2" color="text.secondary" align="center">
 					{"Copyright © "}

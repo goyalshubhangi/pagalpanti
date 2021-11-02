@@ -1,12 +1,13 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom"
-import { createTheme, ThemeProvider, CssBaseline } from "@mui/material"
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { createTheme, ThemeProvider } from "@mui/material"
 import Login from "./pages/Login"
 import Todo from "./pages/Todo"
 import NotFound from "./pages/NotFound"
 import Signup from "./pages/Signup"
-import { AuthProvider } from "./contexts/AuthProvider"
+import { useAuth } from "./contexts/AuthProvider"
 
 function App() {
+	const { currentUser } = useAuth()
 	const theme = createTheme({
 		components: {
 			MuiCssBaseline: {
@@ -28,18 +29,17 @@ function App() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<CssBaseline />
-
-			<AuthProvider>
-				<BrowserRouter>
-					<Switch>
-						<Route exact path="/login" component={Login} />
-						<Route exact path="/signup" component={Signup} />
-						<Route path="/todo" component={Todo} />
-						<Route component={NotFound} />
-					</Switch>
-				</BrowserRouter>
-			</AuthProvider>
+			<BrowserRouter>
+				<Switch>
+					<Route exact path="/">
+						<Redirect to={currentUser ? "/todo" : "/login" } />
+					</Route>
+					<Route path="/todo" component={Todo} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/signup" component={Signup} />
+					<Route component={NotFound} />
+				</Switch>
+			</BrowserRouter>
 
 		</ThemeProvider>
 	)

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 import { auth } from "../utils/firebase"
 
 const AuthContext = createContext()
@@ -23,6 +23,10 @@ export function AuthProvider({ children }) {
         return signOut(auth)
     }
 
+    const updateUserName = (name) => {
+        return updateProfile(auth.currentUser, { displayName: name })
+    }
+
     useEffect(() => {
         const hogyaKaam = onAuthStateChanged(auth, user => {
             setCurrentUser(user)
@@ -35,7 +39,8 @@ export function AuthProvider({ children }) {
         currentUser,
         signUp,
         logIn,
-        logOut
+        logOut,
+        updateUserName,
     }
 
     return (

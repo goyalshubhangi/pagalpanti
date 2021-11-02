@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react"
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material"
+import { Box, Button, CssBaseline, Grid, IconButton, InputAdornment, Link, TextField, Typography } from "@mui/material"
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useHistory } from "react-router"
 import { useAuth } from "../contexts/AuthProvider"
+import BACKGROUND from '../img/background.jpg'
 
 export default function Login({ setAuthtoken }) {
 	const [errors, setErrors] = useState({})
 	const [email, setEmail] = useState("")
 	const [pass, setPass] = useState("")
 	const [loading, setLoading] = useState(false)
+	const [showPass, setShowPass] = useState(false)
 	const emailRef = useRef(null)
 	const passRef = useRef(null)
 	const history = useHistory()
@@ -17,6 +20,10 @@ export default function Login({ setAuthtoken }) {
 		if (currentUser) history.replace('/todo')
 		// eslint-disable-next-line
 	}, [currentUser])
+
+	const togglePassMask = () => {
+		setShowPass(!showPass)
+	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -38,20 +45,17 @@ export default function Login({ setAuthtoken }) {
 			setErrors({ pass: "Passwords cannot be empty" })
 			passRef.current.focus()
 			return
-		} else {
-			if (String(pass).length < 8) {
-				setErrors({ pass: "Invalid password" })
-				passRef.current.focus()
-				return
-			}
+		} else if (String(pass).length < 8) {
+			setErrors({ pass: "Invalid password" })
+			passRef.current.focus()
+			return
 		}
 
 		setErrors({})
 		setLoading(true)
 		await logIn(email, pass)
 			.then((userCredential) => {
-				console.log(userCredential.user)
-				history.push('/todo')
+				console.log('Login successful')
 			})
 			.catch((error) => {
 				console.log(error)
@@ -68,16 +72,16 @@ export default function Login({ setAuthtoken }) {
 				height: "100%",
 			}}
 		>
+			<CssBaseline />
 			<Grid
 				item
 				xs={false}
 				sm={4}
 				md={7}
 				sx={{
-					backgroundImage: "url(/To_do_list.jpg)",
+					backgroundImage: `url(${BACKGROUND})`,
 					backgroundRepeat: "no-repeat",
-					backgroundColor: (t) => t.palette.grey[900],
-					backgroundSize: "cover",
+					backgroundSize: "contain",
 					backgroundPosition: "center",
 				}}
 			/>
@@ -139,7 +143,7 @@ export default function Login({ setAuthtoken }) {
 						<TextField
 							margin="normal"
 							label="Password"
-							type="password"
+							type={showPass ? "text" : "password"}
 							id="password"
 							name="password"
 							autoComplete="current-password"
@@ -148,6 +152,15 @@ export default function Login({ setAuthtoken }) {
 							error={errors.pass !== undefined}
 							helperText={errors.pass}
 							inputRef={passRef}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment>
+										<IconButton style={{ cursor: 'pointer' }} onClick={togglePassMask} >
+											{showPass ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								)
+							}}
 							fullWidth
 							required
 						/>
@@ -170,7 +183,7 @@ export default function Login({ setAuthtoken }) {
 
 							<Grid item>
 								<Link href="/signup" variant="body2">
-									Sign Up
+									New User? Sign Up
 								</Link>
 							</Grid>
 						</Grid>

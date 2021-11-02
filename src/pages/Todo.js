@@ -58,12 +58,12 @@ function TodoContent() {
 	const history = useHistory()
 
 	useEffect(() => {
-		if(currentUser) {
+		if (currentUser) {
 			console.log(currentUser)
-			console.log(currentUser.email)
-			console.log(currentUser.displayName)
+		} else {
+			history.replace('/login')
 		}
-	}, [currentUser])
+	}, [currentUser, history])
 
 	const toggleDrawer = () => {
 		setOpen(!open)
