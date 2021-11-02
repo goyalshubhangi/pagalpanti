@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { Switch, Route } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -10,15 +11,11 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { mainListItems, secondaryListItems } from "../utils/listitems";
+import All from "./All";
 
 const drawerWidth = 240;
 
@@ -103,9 +100,7 @@ function TodoContent() {
             ToDo App
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+            <LogoutIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -140,52 +135,7 @@ function TodoContent() {
         }}
       >
         <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <h1>Charts</h1>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <h1>Deposits</h1>
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <h1>Orders</h1>
-              </Paper>
-            </Grid>
-          </Grid>
-          <Grid sx={{ pt: 4 }}>
-            <Typography variant="body2" color="text.secondary" align="center">
-              {"Copyright © "}
-              <Link color="inherit" href="https://mui.com/">
-                Your Website
-              </Link>{" "}
-              {new Date().getFullYear()}
-              {"."}
-            </Typography>
-          </Grid>
-        </Container>
+       <All/>
       </Box>
     </Box>
   );

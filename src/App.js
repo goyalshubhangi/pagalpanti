@@ -13,6 +13,9 @@ function App() {
         `,
       },
     },
+    typography: {
+      fontFamily: "Lato",
+    },
     palette: {
       primary: {
         main: "#8684f3",
@@ -33,7 +36,7 @@ function App() {
           <Route path="/signup" exact>
             <Signup />
           </Route>
-          <Route path="/todo" exact>
+          <Route path="/todo" >
             <Todo />
           </Route>
           <Route>
