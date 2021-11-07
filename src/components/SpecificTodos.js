@@ -4,7 +4,7 @@ import { Container, Fab, Grid, Paper, Link, Typography, Dialog, DialogTitle, Dia
 import { ref, push, set } from "firebase/database"
 import { db } from "../utils/firebase"
 
-export default function All({ todos }) {
+export default function SpecificTodos({ todos }) {
 	const [open, setOpen] = useState(false)
 	const [taskName, setTaskName] = useState('')
 	const saveTask = () => {

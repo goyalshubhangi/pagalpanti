@@ -1,69 +1,58 @@
 import { useEffect, useState } from "react"
-import { CssBaseline, Drawer as MuiDrawer, Box, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, styled } from "@mui/material"
+import { CssBaseline, Box, Toolbar, List, Typography, Divider, IconButton } from "@mui/material"
 import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon, Logout as LogoutIcon } from "@mui/icons-material"
 import { useHistory } from "react-router"
+import { getDatabase, ref, child, get } from "firebase/database"
+
 import { mainListItems, secondaryListItems } from "../utils/listitems"
 import AllTodos from "../components/AllTodos"
 import { useAuth } from "../contexts/AuthProvider"
+import { AppBar, Drawer } from "../utils/drawer"
+import SpecificTodos from "../components/SpecificTodos"
 
-const drawerWidth = 240
-
-const AppBar = styled(MuiAppBar, {
-	shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-	zIndex: theme.zIndex.drawer + 1,
-	transition: theme.transitions.create(["width", "margin"], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	...(open && {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-		transition: theme.transitions.create(["width", "margin"], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	}),
-}))
-
-const Drawer = styled(MuiDrawer, {
-	shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-	"& .MuiDrawer-paper": {
-		position: "relative",
-		whiteSpace: "nowrap",
-		width: drawerWidth,
-		transition: theme.transitions.create("width", {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-		boxSizing: "border-box",
-		...(!open && {
-			overflowX: "hidden",
-			transition: theme.transitions.create("width", {
-				easing: theme.transitions.easing.sharp,
-				duration: theme.transitions.duration.leavingScreen,
-			}),
-			width: theme.spacing(7),
-			[theme.breakpoints.up("sm")]: {
-				width: theme.spacing(9),
-			},
-		}),
-	},
-}))
-
-function TodoContent() {
+export default function Todo({ match }) {
 	const [open, setOpen] = useState(true)
+	const [tab, setTab] = useState('Dashboard')
+	const [todoFromDB, setTodoFromDB] = useState([])
 	const { currentUser, logOut } = useAuth()
 	const history = useHistory()
 
 	useEffect(() => {
+		setTab(match.params.tab)
+	}, [history.location])
+
+	useEffect(() => {
 		if (currentUser) {
-			console.log(currentUser)
-		} else {
-			history.replace('/login')
-		}
-	}, [currentUser, history])
+			switch (tab) {
+				case 'Dashboard':
+					let dbRef = ref(getDatabase())
+					get(child(dbRef, 'todo'))
+						.then(snap => {
+							let temp = []
+							snap.forEach(todo => {
+								temp.push({ key: todo.key, ...todo.val() })
+							})
+							setTodoFromDB(temp)
+						})
+						.catch(err => {
+							console.error(err)
+						})
+					break;
+
+				default:
+					setTodoFromDB([])
+					break;
+			}
+		} else setTodoFromDB([])
+	}, [currentUser, tab])
+
+	// useEffect(() => {
+	// 	if (currentUser) {
+	// 		console.log(currentUser)
+	// 	} else {
+	// 		history.replace('/login')
+	// 	}
+	// }, [currentUser, history])
 
 	const toggleDrawer = () => {
 		setOpen(!open)
@@ -131,7 +120,7 @@ function TodoContent() {
 					</IconButton>
 				</Toolbar>
 				<Divider />
-				<List>{mainListItems}</List>
+				<List>{mainListItems(history)}</List>
 				<Divider />
 				<List>{secondaryListItems}</List>
 			</Drawer>
@@ -149,13 +138,14 @@ function TodoContent() {
 				}}
 			>
 				<Toolbar />
-				<AllTodos />
+
+				{
+					tab === 'Dashboard' ?
+						<AllTodos todos={todoFromDB} />
+						: <SpecificTodos todos={todosFromDB} />
+				}
 			</Box>
 
 		</Box>
 	)
-}
-
-export default function Todo() {
-	return <TodoContent />
 }

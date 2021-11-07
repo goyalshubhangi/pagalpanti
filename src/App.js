@@ -34,7 +34,8 @@ function App() {
 					<Route exact path="/">
 						<Redirect to={currentUser ? "/todo" : "/login" } />
 					</Route>
-					<Route path="/todo" component={Todo} />
+					{/* <Route path="/todo" component={Todo} /> */}
+					<Route path="/todo/:tab" component={Todo} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/signup" component={Signup} />
 					<Route component={NotFound} />
