@@ -17,7 +17,7 @@ export default function Login({ setAuthtoken }) {
 	const { currentUser, logIn } = useAuth()
 
 	useEffect(() => {
-		if (currentUser) history.replace('/todo')
+		if (currentUser) history.replace('/todo/Dashboard')
 		// eslint-disable-next-line
 	}, [currentUser])
 

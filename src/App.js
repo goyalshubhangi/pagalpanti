@@ -32,7 +32,7 @@ function App() {
 			<BrowserRouter>
 				<Switch>
 					<Route exact path="/">
-						<Redirect to={currentUser ? "/todo" : "/login" } />
+						<Redirect to={currentUser ? "/todo/Dashboard" : "/login" } />
 					</Route>
 					{/* <Route path="/todo" component={Todo} /> */}
 					<Route path="/todo/:tab" component={Todo} />
