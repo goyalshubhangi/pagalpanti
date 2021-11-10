@@ -17,7 +17,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { ref, push, set } from "firebase/database";
+import { ref, push, set} from "firebase/database";
 import { db } from "../utils/firebase";
 
 export default function All({ todos }) {
@@ -28,6 +28,7 @@ export default function All({ todos }) {
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
+    
   };
 
   const saveTask = () => {
@@ -82,7 +83,7 @@ export default function All({ todos }) {
           </Grid>
         </Grid>
       </Paper>
-      <Paper square={true} elevation={3} sx={{ textAlign: "center" }}>
+      {/* <Paper square={true} elevation={3} sx={{ textAlign: "center" }}>
         {todos.map((todo) => {
           return (
             <Grid container key={todo.key}>
@@ -145,7 +146,7 @@ export default function All({ todos }) {
             </Grid>
           );
         })}
-      </Paper>
+      </Paper> */}
 
       <Grid sx={{ pt: 4 }}>
         <Typography variant="body2" color="text.secondary" align="center">
