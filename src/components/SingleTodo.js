@@ -5,12 +5,14 @@ import { db } from "../utils/firebase";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import TaskDialog from "./TaskDialog";
+import TaskDelete from "./TaskDelete";
 
 function SingleTodo({ todo }) {
   const [selectedValue, setSelectedValue] = useState(
     todo ? todo.status : "Pending"
   );
   const [editDialog, setEditDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -83,7 +85,7 @@ function SingleTodo({ todo }) {
         </Typography>
       </Grid>
       <Grid item xs={12} md={1.5} sx={{ p: 2 }}>
-        <IconButton>
+        <IconButton onClick={() => setDeleteDialog(true)}>
           <DeleteIcon />
         </IconButton>
         <IconButton onClick={() => setEditDialog(true)}>
@@ -91,7 +93,18 @@ function SingleTodo({ todo }) {
         </IconButton>
       </Grid>
 
-      <TaskDialog open={editDialog} setOpen={setEditDialog} isEditing={true} taskobj={todo} />
+      <TaskDialog
+        open={editDialog}
+        setOpen={setEditDialog}
+        isEditing={true}
+        taskobj={todo}
+      />
+
+      <TaskDelete
+        open={deleteDialog}
+        setOpen={setDeleteDialog}
+        taskobj={todo}
+      />
     </Grid>
   );
 }
