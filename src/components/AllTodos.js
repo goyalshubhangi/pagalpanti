@@ -13,23 +13,15 @@ import {
   TextField,
   DialogActions,
   Button,
-  Radio,
-  InputAdornment,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { ref, push, set} from "firebase/database";
+import { ref, push, set } from "firebase/database";
 import { db } from "../utils/firebase";
+import SingleTodo from "./SingleTodo";
 
 export default function All({ todos }) {
   const [open, setOpen] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
-  const [selectedValue, setSelectedValue] = useState("Pending");
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-    
-  };
 
   const saveTask = () => {
     if (taskName.trim() !== "") {
@@ -39,7 +31,10 @@ export default function All({ todos }) {
         createdAt: new Date().toISOString(),
         details: taskName,
         status: "pending",
-        assign: assignedTo,
+        assign: {
+          assignedTo,
+          assignedAt: new Date().toISOString(),
+        },
       });
       setTaskName("");
       setAssignedTo("");
@@ -83,70 +78,11 @@ export default function All({ todos }) {
           </Grid>
         </Grid>
       </Paper>
-      {/* <Paper square={true} elevation={3} sx={{ textAlign: "center" }}>
-        {todos.map((todo) => {
-          return (
-            <Grid container key={todo.key}>
-              <Grid item xs={12} md={2} sx={{ p: 2 }}>
-                {todo.details}
-              </Grid>
-              <Grid item xs={12} md={2} sx={{ p: 2 }}>
-                {todo.assign}
-              </Grid>
-              <Grid item xs={12} md={1.5} sx={{ p: 2 }}>
-                <Radio
-                  checked={selectedValue === "Pending"}
-                  onChange={handleChange}
-                  value="Pending"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "Pending" }}
-                />
-              </Grid>
-              <Grid item xs={12} md={1.5} sx={{ p: 2 }}>
-                <Radio
-                  checked={selectedValue === "UnderReview"}
-                  onChange={handleChange}
-                  value="UnderReview"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "UnderReview" }}
-                />
-              </Grid>
-              <Grid item xs={12} md={1.5} sx={{ p: 2 }}>
-                <Radio
-                  checked={selectedValue === "Doing"}
-                  onChange={handleChange}
-                  value="Doing"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "Doing" }}
-                />
-              </Grid>
-              <Grid item xs={12} md={1.5} sx={{ p: 2 }}>
-                <Radio
-                  checked={selectedValue === "Completed"}
-                  onChange={handleChange}
-                  value="Completed"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "Completed" }}
-                />
-              </Grid>
-              <Grid item xs={12} md={2} sx={{ pl: 4, pt: 2, pb: 2, pr: 2 }}>
-                <TextField
-                  label="Remark"
-                  id="outlined-end-adornment"
-                  sx={{ m: 1 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <EditIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-            </Grid>
-          );
-        })}
-      </Paper> */}
+      <Paper square={true} elevation={3} sx={{ textAlign: "center" }}>
+        {todos.map((todo) => (
+          <SingleTodo key={todo.key} todo={todo} />
+        ))}
+      </Paper>
 
       <Grid sx={{ pt: 4 }}>
         <Typography variant="body2" color="text.secondary" align="center">
@@ -190,7 +126,6 @@ export default function All({ todos }) {
             value={assignedTo}
             onChange={(e) => setAssignedTo(e.target.value)}
             fullWidth
-            autoFocus
           />
         </DialogContent>
         <DialogActions>
