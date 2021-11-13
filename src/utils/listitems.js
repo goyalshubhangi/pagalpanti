@@ -7,6 +7,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import LayersIcon from "@mui/icons-material/Layers";
 import PendingIcon from "@mui/icons-material/Pending";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import PersonIcon from "@mui/icons-material/Person";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
 export const mainListItems = (history) => (
@@ -55,7 +56,7 @@ export const mainListItems = (history) => (
   </div>
 );
 
-export const secondaryListItems = (
+export const secondaryListItems = (history) => (
   <div>
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
@@ -69,6 +70,19 @@ export const secondaryListItems = (
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Last Week" />
+    </ListItem>
+  </div>
+);
+
+export const teritiaryListItems = (history) => (
+  <div>
+    <ListSubheader inset>Account</ListSubheader>
+
+    <ListItem button onClick={() => history.push("/account")}>
+      <ListItemIcon>
+        <PersonIcon />
+      </ListItemIcon>
+      <ListItemText primary="Account details" />
     </ListItem>
   </div>
 );

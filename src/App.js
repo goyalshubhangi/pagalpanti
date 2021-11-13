@@ -5,6 +5,7 @@ import Todo from "./pages/Todo"
 import NotFound from "./pages/NotFound"
 import Signup from "./pages/Signup"
 import { useAuth } from "./contexts/AuthProvider"
+import Account from "./pages/Account"
 
 function App() {
 	const { currentUser } = useAuth()
@@ -32,12 +33,13 @@ function App() {
 			<BrowserRouter>
 				<Switch>
 					<Route exact path="/">
-						<Redirect to={currentUser ? "/todo/Dashboard" : "/login" } />
+						<Redirect to={currentUser ? "/todo/Dashboard" : "/login"} />
 					</Route>
 					{/* <Route path="/todo" component={Todo} /> */}
 					<Route path="/todo/:tab" component={Todo} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/signup" component={Signup} />
+					<Route exact path="/account" component={Account} />
 					<Route component={NotFound} />
 				</Switch>
 			</BrowserRouter>

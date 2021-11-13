@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 import { useHistory } from "react-router";
 import { getDatabase, ref, child, get } from "firebase/database";
-import { mainListItems, secondaryListItems } from "../utils/listitems";
+import { mainListItems, secondaryListItems, teritiaryListItems } from "../utils/listitems";
 import AllTodos from "../components/AllTodos";
 import { useAuth } from "../contexts/AuthProvider";
 import { AppBar, Drawer } from "../utils/drawer";
@@ -232,7 +232,9 @@ export default function Todo({ match }) {
         <Divider />
         <List>{mainListItems(history)}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{secondaryListItems(history)}</List>
+        <Divider />
+        <List>{teritiaryListItems(history)}</List>
       </Drawer>
 
       <Box
