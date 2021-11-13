@@ -5,9 +5,8 @@
 - [x] store account details
 - [x] show account details of logged in user
 - [ ] assigned should be a drop down
-- [ ] store logs in database
-- [ ] current week report
-- [ ] last week report
+- [x] store logs in database
+- [x] current week, last week report
 - [ ] optimise code
 - [ ] fcp(first contentfull paint)
 - [ ] manage text-overflow in todos

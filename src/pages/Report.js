@@ -18,34 +18,76 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import { useAuth } from "../contexts/AuthProvider";
 import { mainListItems, secondaryListItems, teritiaryListItems } from "../utils/listitems";
 import { AppBar, Drawer } from "../utils/drawer";
+import AllReports from "../components/AllReports";
 import Snacks from "../components/Snacks";
-import UserDetails from "../components/UserDetails";
 
-export default function Account() {
-  const [open, setOpen] = useState(true);
+export default function Report({ match }) {
+  const [open, setOpen] = useState(true)
+  const [period, setPeriod] = useState("currentweek")
   const [loading, setLoading] = useState(false)
-  const [userDetails, setUserDetails] = useState(null)
+  const [reports, setReports] = useState([])
   const [snackbar, setSnackbar] = useState(false)
   const [msg, setMsg] = useState("")
   const { currentUser, logOut } = useAuth()
   const history = useHistory();
 
   useEffect(() => {
+    setPeriod(match.params.period);
+  }, [history.location, match.params.period]);
+
+  useEffect(() => {
     if (currentUser) {
-      console.log(currentUser)
       setLoading(true)
       let dbRef = ref(getDatabase())
-      get(child(dbRef, "users/" + currentUser.uid))
-        .then((snap) => {
-          setUserDetails(snap.val())
-        })
-        .catch((err) => {
-          setMsg('Error while fetching account details')
-          setSnackbar(true)
-        })
-        .finally(() => setLoading(false))
+
+      switch (period) {
+        case "currentweek":
+          get(child(dbRef, "logs"))
+            .then((snap) => {
+              let reps = []
+              let xyz
+              let curr = new Date()
+              snap.forEach(tmp => {
+                xyz = tmp.val().time
+                xyz = new Date(xyz)
+                if (curr - xyz <= 604800000)
+                  reps.push({ ...tmp.val(), key: tmp.key })
+              })
+              setReports(reps)
+            })
+            .catch((err) => {
+              setMsg('Error while fetching account details')
+              setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
+          break;
+
+        case "lastweek":
+          get(child(dbRef, "logs"))
+            .then((snap) => {
+              let reps = []
+              let xyz
+              let curr = new Date()
+              snap.forEach(tmp => {
+                xyz = tmp.val().time
+                xyz = new Date(xyz)
+                if ((curr - xyz) > 604800000 && (curr - xyz) <= 1209600000)
+                  reps.push({ ...tmp.val(), key: tmp.key })
+              })
+              setReports(reps)
+            })
+            .catch((err) => {
+              setMsg('Error while fetching account details')
+              setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
+          break;
+
+        default:
+          break;
+      }
     }
-  }, [currentUser])
+  }, [currentUser, period])
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -134,7 +176,7 @@ export default function Account() {
       >
         <Toolbar />
 
-        <UserDetails loading={loading} userDetails={userDetails} currentUser={currentUser} />
+        <AllReports loading={loading} reports={reports} />
       </Box>
 
       <Snacks open={snackbar} setOpen={setSnackbar} message={msg} />

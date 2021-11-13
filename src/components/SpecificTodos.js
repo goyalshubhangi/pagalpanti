@@ -48,7 +48,7 @@ export default function SpecificTodos({ todos, loading }) {
               todos.map((todo) => (
                 <SingleTodo key={todo.key} todo={todo} />
               )) :
-              <div style={{ padding: 40 }}>Kux ni mila bc</div>
+              <div style={{ padding: 32, fontStyle:'italic', color:'grey' }}>No todos found</div>
           )
         }
       </Paper>

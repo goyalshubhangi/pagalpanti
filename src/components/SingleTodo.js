@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Grid, IconButton, Radio, Typography } from "@mui/material";
-import { ref, update } from "firebase/database";
+import { ref, update, push, set } from "firebase/database";
 import { db } from "../utils/firebase";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -17,7 +17,32 @@ function SingleTodo({ todo, oldTodos, setTodos }) {
   const [snackbar, setSnackbar] = useState(false)
   const [msg, setMsg] = useState("")
 
+  const logIntoDB = (oldVal, newVal, todoID) => {
+    const logs = ref(db, "logs");
+    const list = push(logs);
+    const obj = {
+      todoID,
+      time: new Date().toISOString(),
+      status: {
+        from: oldVal,
+        to: newVal,
+      },
+    }
+    set(list, obj)
+      .then(() => {
+        setMsg("State changed and logged into database")
+        setSnackbar(true)
+      })
+      .catch(e => {
+        console.log(e)
+        setMsg("Something went wrong while logging! Try again")
+        setSnackbar(true)
+      })
+  }
+
   const handleChange = (event) => {
+    let oldVal = selectedValue
+    let newVal = event.target.value
     setSelectedValue(event.target.value);
     let obj = { ...todo, status: event.target.value };
     let key = obj.key;
@@ -26,8 +51,7 @@ function SingleTodo({ todo, oldTodos, setTodos }) {
     updates["/todo/" + key] = obj;
     update(ref(db), updates)
       .then(() => {
-        setMsg("State updated to " + event.target.value)
-        setSnackbar(true)
+        logIntoDB(oldVal, newVal, key)
       })
       .catch(e => {
         console.log(e)
@@ -35,6 +59,7 @@ function SingleTodo({ todo, oldTodos, setTodos }) {
         setSnackbar(true)
       })
   };
+
   return (
     <Grid container key={todo.key}>
       <Grid item xs={12} md={1.75} sx={{ p: 2 }}>

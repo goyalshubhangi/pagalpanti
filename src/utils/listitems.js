@@ -59,13 +59,15 @@ export const mainListItems = (history) => (
 export const secondaryListItems = (history) => (
   <div>
     <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
+
+    <ListItem button onClick={() => history.push("/reports/currentweek")}>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Current Week" />
     </ListItem>
-    <ListItem button>
+
+    <ListItem button onClick={() => history.push("/reports/lastweek")}>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>

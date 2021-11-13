@@ -54,7 +54,7 @@ export default function All({ todos, setTodos, loading }) {
               todos.map((todo) => (
                 <SingleTodo key={todo.key} todo={todo} oldTodos={todos} setTodos={setTodos} />
               )) :
-              <div style={{ padding: 40 }}>Kux ni mila bc</div>
+              <div style={{ padding: 32, fontStyle:'italic', color:'grey' }}>No todos found</div>
           )
         }
       </Paper>
