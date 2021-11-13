@@ -109,7 +109,8 @@ export default function Todo({ match }) {
               console.error(err);
               setMsg('Something went wrong while fetching data!')
               setSnackbar(true)
-            });
+            })
+            .finally(() => setLoading(false))
           break;
 
         case "UnderReview":

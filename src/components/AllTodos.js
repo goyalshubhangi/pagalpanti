@@ -5,7 +5,7 @@ import { Container, Fab, Grid, Paper, Link, Typography } from "@mui/material";
 import SingleTodo from "./SingleTodo";
 import TaskDialog from "./TaskDialog";
 
-export default function All({ todos, setTodos, loading }) {
+export default function AllTodos({ todos, setTodos, loading }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (

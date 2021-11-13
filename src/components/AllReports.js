@@ -54,7 +54,7 @@ export default function Reports({ loading, reports }) {
                     {ind + 1}
                   </Grid>
                   <Grid item md={4} sx={{ p: 2 }}>
-                    {report.todoID}
+                    {report.details}
                   </Grid>
                   <Grid item md={2} sx={{ p: 2 }}>
                     {report.status?.from}

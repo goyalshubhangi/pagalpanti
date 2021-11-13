@@ -154,7 +154,7 @@ export default function Login({ setAuthtoken }) {
 							inputRef={passRef}
 							InputProps={{
 								endAdornment: (
-									<InputAdornment>
+									<InputAdornment position='end'>
 										<IconButton style={{ cursor: 'pointer' }} onClick={togglePassMask} >
 											{showPass ? <VisibilityOff /> : <Visibility />}
 										</IconButton>

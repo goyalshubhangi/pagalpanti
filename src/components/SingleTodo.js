@@ -22,6 +22,7 @@ function SingleTodo({ todo, oldTodos, setTodos }) {
     const list = push(logs);
     const obj = {
       todoID,
+      details: todo.details,
       time: new Date().toISOString(),
       status: {
         from: oldVal,
@@ -63,12 +64,12 @@ function SingleTodo({ todo, oldTodos, setTodos }) {
   return (
     <Grid container key={todo.key}>
       <Grid item xs={12} md={1.75} sx={{ p: 2 }}>
-        <Typography component="body1" color="inherit" noWrap>
+        <Typography variant="body1" color="inherit" noWrap>
           {todo.details}
         </Typography>
       </Grid>
       <Grid item xs={12} md={1.75} sx={{ p: 2 }}>
-        <Typography component="body1" color="inherit" noWrap>
+        <Typography variant="body1" color="inherit" noWrap>
           {todo.assign ? todo.assign.assignedTo : "—"}
         </Typography>
       </Grid>
@@ -111,7 +112,7 @@ function SingleTodo({ todo, oldTodos, setTodos }) {
 
       <Grid item xs={12} md={2} sx={{ p: 2 }}>
         <Typography
-          component="body1"
+          variant="body1"
           color="inherit"
           noWrap
           sx={{ flexGrow: 1 }}

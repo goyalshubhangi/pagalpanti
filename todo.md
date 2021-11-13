@@ -7,6 +7,9 @@
 - [ ] assigned should be a drop down
 - [x] store logs in database
 - [x] current week, last week report
+- [ ] verify email
+- [ ] change password/forget password
+- [ ] edit name and phone number
 - [ ] optimise code
 - [ ] fcp(first contentfull paint)
 - [ ] manage text-overflow in todos
