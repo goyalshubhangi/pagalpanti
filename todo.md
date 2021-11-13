@@ -1,6 +1,7 @@
 - [x] edit option for task remark and assign
 - [x] delete option for task remark and assign
 - [x] snackbar for data manipulation
+- [x] assigned/doing/pending/underreview/completed tabs
 - [ ] logs in database
 - [ ] store account details and show the details
 - [ ] assigned should be a drop down

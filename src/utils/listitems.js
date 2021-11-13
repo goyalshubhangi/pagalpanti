@@ -25,23 +25,25 @@ export const mainListItems = (history) => (
       <ListItemText primary="Assigned" />
     </ListItem>
 
-    <ListItem button onClick={() => history.push("/todo/Doing")}>
-      <ListItemIcon>
-        <PendingIcon />
-      </ListItemIcon>
-      <ListItemText primary="Doing" />
-    </ListItem>
     <ListItem button onClick={() => history.push("/todo/Pending")}>
       <ListItemIcon>
         <PendingActionsIcon />
       </ListItemIcon>
       <ListItemText primary="Pending" />
     </ListItem>
-    <ListItem button onClick={() => history.push("/todo/Under")}>
+
+    <ListItem button onClick={() => history.push("/todo/UnderReview")}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Under Review" />
+    </ListItem>
+
+    <ListItem button onClick={() => history.push("/todo/Doing")}>
+      <ListItemIcon>
+        <PendingIcon />
+      </ListItemIcon>
+      <ListItemText primary="Doing" />
     </ListItem>
 
     <ListItem button onClick={() => history.push("/todo/Completed")}>

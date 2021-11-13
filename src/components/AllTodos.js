@@ -5,7 +5,7 @@ import { Container, Fab, Grid, Paper, Link, Typography } from "@mui/material";
 import SingleTodo from "./SingleTodo";
 import TaskDialog from "./TaskDialog";
 
-export default function All({ todos, setTodos }) {
+export default function All({ todos, setTodos, loading }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
@@ -47,11 +47,15 @@ export default function All({ todos, setTodos }) {
       </Paper>
       <Paper square={true} elevation={3} sx={{ textAlign: "center" }}>
         {
-          todos && todos.length > 0 ?
-            todos.map((todo) => (
-              <SingleTodo key={todo.key} todo={todo} oldTodos={todos} setTodos={setTodos} />
-            )) :
+          loading ? (
             <div style={{ padding: 40 }}>Loading...</div>
+          ) : (
+            todos && todos.length > 0 ?
+              todos.map((todo) => (
+                <SingleTodo key={todo.key} todo={todo} oldTodos={todos} setTodos={setTodos} />
+              )) :
+              <div style={{ padding: 40 }}>Kux ni mila bc</div>
+          )
         }
       </Paper>
 

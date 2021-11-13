@@ -25,6 +25,7 @@ import Snacks from "../components/Snacks";
 export default function Todo({ match }) {
   const [open, setOpen] = useState(true);
   const [tab, setTab] = useState("Dashboard");
+  const [loading, setLoading] = useState(false)
   const [snackbar, setSnackbar] = useState(false)
   const [msg, setMsg] = useState("")
   const [todoFromDB, setTodoFromDB] = useState([]);
@@ -37,9 +38,11 @@ export default function Todo({ match }) {
 
   useEffect(() => {
     if (currentUser) {
+      let dbRef = ref(getDatabase());
+      setLoading(true)
+
       switch (tab) {
         case "Dashboard":
-          let dbRef = ref(getDatabase());
           get(child(dbRef, "todo"))
             .then((snap) => {
               let temp = [];
@@ -52,11 +55,102 @@ export default function Todo({ match }) {
               console.error(err);
               setMsg('Something went wrong while fetching data!')
               setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
+          break;
+
+        case "Assigned":
+          get(child(dbRef, "todo"))
+            .then((snap) => {
+              let temp = [];
+              snap.forEach((todo) => {
+                if (todo.val().assign)
+                  temp.push({ key: todo.key, ...todo.val() });
+              });
+              setTodoFromDB(temp);
+            })
+            .catch((err) => {
+              console.error(err);
+              setMsg('Something went wrong while fetching data!')
+              setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
+          break;
+
+        case "Doing":
+          get(child(dbRef, "todo"))
+            .then((snap) => {
+              let temp = [];
+              snap.forEach((todo) => {
+                if (todo.val().status === "Doing")
+                  temp.push({ key: todo.key, ...todo.val() });
+              });
+              setTodoFromDB(temp);
+            })
+            .catch((err) => {
+              console.error(err);
+              setMsg('Something went wrong while fetching data!')
+              setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
+          break;
+
+        case "Pending":
+          get(child(dbRef, "todo"))
+            .then((snap) => {
+              let temp = [];
+              snap.forEach((todo) => {
+                if (todo.val().status === "Pending")
+                  temp.push({ key: todo.key, ...todo.val() });
+              });
+              setTodoFromDB(temp);
+            })
+            .catch((err) => {
+              console.error(err);
+              setMsg('Something went wrong while fetching data!')
+              setSnackbar(true)
             });
+          break;
+
+        case "UnderReview":
+          get(child(dbRef, "todo"))
+            .then((snap) => {
+              let temp = [];
+              snap.forEach((todo) => {
+                if (todo.val().status === "UnderReview")
+                  temp.push({ key: todo.key, ...todo.val() });
+              });
+              setTodoFromDB(temp);
+            })
+            .catch((err) => {
+              console.error(err);
+              setMsg('Something went wrong while fetching data!')
+              setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
+          break;
+
+        case "Completed":
+          get(child(dbRef, "todo"))
+            .then((snap) => {
+              let temp = [];
+              snap.forEach((todo) => {
+                if (todo.val().status === "Completed")
+                  temp.push({ key: todo.key, ...todo.val() });
+              });
+              setTodoFromDB(temp);
+            })
+            .catch((err) => {
+              console.error(err);
+              setMsg('Something went wrong while fetching data!')
+              setSnackbar(true)
+            })
+            .finally(() => setLoading(false))
           break;
 
         default:
           setTodoFromDB([]);
+          setLoading(false)
           break;
       }
     } else setTodoFromDB([]);
@@ -156,9 +250,9 @@ export default function Todo({ match }) {
         <Toolbar />
 
         {tab === "Dashboard" ? (
-          <AllTodos todos={todoFromDB} setTodos={setTodoFromDB} />
+          <AllTodos loading={loading} todos={todoFromDB} setTodos={setTodoFromDB} />
         ) : (
-          <SpecificTodos todos={todoFromDB} />
+          <SpecificTodos loading={loading} todos={todoFromDB} />
         )}
       </Box>
 
