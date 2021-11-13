@@ -20,10 +20,13 @@ import AllTodos from "../components/AllTodos";
 import { useAuth } from "../contexts/AuthProvider";
 import { AppBar, Drawer } from "../utils/drawer";
 import SpecificTodos from "../components/SpecificTodos";
+import Snacks from "../components/Snacks";
 
 export default function Todo({ match }) {
   const [open, setOpen] = useState(true);
   const [tab, setTab] = useState("Dashboard");
+  const [snackbar, setSnackbar] = useState(false)
+  const [msg, setMsg] = useState("")
   const [todoFromDB, setTodoFromDB] = useState([]);
   const { currentUser, logOut } = useAuth();
   const history = useHistory();
@@ -47,6 +50,8 @@ export default function Todo({ match }) {
             })
             .catch((err) => {
               console.error(err);
+              setMsg('Something went wrong while fetching data!')
+              setSnackbar(true)
             });
           break;
 
@@ -151,11 +156,13 @@ export default function Todo({ match }) {
         <Toolbar />
 
         {tab === "Dashboard" ? (
-          <AllTodos todos={todoFromDB} />
+          <AllTodos todos={todoFromDB} setTodos={setTodoFromDB} />
         ) : (
           <SpecificTodos todos={todoFromDB} />
         )}
       </Box>
+
+      <Snacks open={snackbar} setOpen={setSnackbar} message={msg} />
     </Box>
   );
 }

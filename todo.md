@@ -1,8 +1,8 @@
 - [x] edit option for task remark and assign
 - [x] delete option for task remark and assign
-- [ ] snackbar for data manipulation
+- [x] snackbar for data manipulation
 - [ ] logs in database
 - [ ] store account details and show the details
-- [ ] assined should be a drop down
+- [ ] assigned should be a drop down
 - [ ] optimise code
 - [ ] fcp(first contentfull paint)

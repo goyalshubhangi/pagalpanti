@@ -6,13 +6,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import TaskDialog from "./TaskDialog";
 import TaskDelete from "./TaskDelete";
+import Snacks from "./Snacks";
 
-function SingleTodo({ todo }) {
+function SingleTodo({ todo, oldTodos, setTodos }) {
   const [selectedValue, setSelectedValue] = useState(
     todo ? todo.status : "Pending"
   );
   const [editDialog, setEditDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const [snackbar, setSnackbar] = useState(false)
+  const [msg, setMsg] = useState("")
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -22,8 +25,15 @@ function SingleTodo({ todo }) {
     const updates = {};
     updates["/todo/" + key] = obj;
     update(ref(db), updates)
-      .then(() => console.log())
-      .catch((e) => console.log(e));
+      .then(() => {
+        setMsg("State updated to " + event.target.value)
+        setSnackbar(true)
+      })
+      .catch(e => {
+        console.log(e)
+        setMsg("Something went wrong! Try again")
+        setSnackbar(true)
+      })
   };
   return (
     <Grid container key={todo.key}>
@@ -98,13 +108,19 @@ function SingleTodo({ todo }) {
         setOpen={setEditDialog}
         isEditing={true}
         taskobj={todo}
+        oldTodos={oldTodos}
+        setTodos={setTodos}
       />
 
       <TaskDelete
         open={deleteDialog}
         setOpen={setDeleteDialog}
         taskobj={todo}
+        oldTodos={oldTodos}
+        setTodos={setTodos}
       />
+
+      <Snacks open={snackbar} setOpen={setSnackbar} message={msg} />
     </Grid>
   );
 }
